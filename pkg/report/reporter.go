@@ -13,7 +13,7 @@ type IOCS struct {
 
 type REPORT struct {
 	FileName               string
-	SHA256Hash             []byte
+	SHA256Hash             string
 	AnalysisDate           string
 	IndicatorsOfCompromise IOCS
 }
@@ -36,19 +36,17 @@ func (r *REPORT) WriteReport(fname string) {
 		panic(err)
 	}
 
-	f.Write([]byte("File: " + r.FileName + "\n"))
-	f.Write([]byte("SHA256 Hash: "))
-	f.Write(r.SHA256Hash)
-	f.Write([]byte("\n"))
-	f.Write([]byte("Date Analyzed: " + r.AnalysisDate + "\n"))
+	f.Write([]byte("**File:** " + r.FileName + "  \n"))
+	f.Write([]byte("**SHA256 Hash:** " + r.SHA256Hash + "  \n"))
+	f.Write([]byte("**Date Analyzed:** " + r.AnalysisDate + "  \n"))
 
-	f.Write([]byte("---------------\n\n\n"))
+	f.Write([]byte("\n\n---------------\n\n\n"))
 
-	f.Write([]byte("## Indicators of Compromise \n\n"))
-	f.Write([]byte("### Out Bound Connections \n\n"))
+	f.Write([]byte("## Indicators of Compromise  \n\n"))
+	f.Write([]byte("### Out Bound Connections  \n\n"))
 	for _, obc := range r.IndicatorsOfCompromise.OutBoundConnections {
-		f.Write([]byte("**IOC:** " + obc.IOC + "\n"))
-		f.Write([]byte("**File Path:** `" + obc.Path + "`\n"))
+		f.Write([]byte("**IOC:** " + obc.IOC + "  \n"))
+		f.Write([]byte("**File Path:** `" + obc.Path + "`  \n\n"))
 	}
 
 	f.Write([]byte("\n"))
